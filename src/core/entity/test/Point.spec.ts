@@ -23,4 +23,13 @@ describe("Point class", () => {
     // Check if the result matches the expected distance
     expect(result).toBe(expectedDistance);
   });
+
+  it("calculates the correct distance with negatives", () => {
+    const point1: Point = new Point(0, -1);
+    const point2: Point = new Point(0, -3);
+
+    const distance = Point.calculateDistance(point1, point2);
+
+    expect(distance).toBeCloseTo(2);
+  });
 });
