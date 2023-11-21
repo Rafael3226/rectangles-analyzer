@@ -15,4 +15,8 @@ export default class Vector {
   static dotProduct(vector1: Vector, vector2: Vector): number {
     return vector1.x * vector2.x + vector1.y * vector2.y;
   }
+
+  static crossProduct(vector1: Vector, vector2: Vector): number {
+    return vector1.x * vector2.y - vector1.y * vector2.x;
+  }
 }

@@ -49,14 +49,12 @@ describe("Rectangle class", () => {
           new Vector(1, 1),
         ]);
 
-      expect(() => rectangle.check90Degrees()).toThrow(
-        InvalidRectangleException
-      );
+      expect(() => rectangle.isRectangle()).toThrow(InvalidRectangleException);
     });
 
     test("does not throw exception for rectangular vectors", () => {
       const rectangle = new Rectangle(validPoints);
-      expect(() => rectangle.check90Degrees()).not.toThrow();
+      expect(() => rectangle.isRectangle()).not.toThrow();
     });
   });
 
@@ -90,6 +88,99 @@ describe("Rectangle class", () => {
       points.forEach((point) => {
         expect(point).toBeInstanceOf(Point);
       });
+    });
+  });
+
+  describe("isPointInside method", () => {
+    it("should return true for a point inside the rectangle", () => {
+      const rectangle = new Rectangle(validPoints);
+      const insidePoint = new Point(1, 1);
+      expect(rectangle.isPointInside(insidePoint)).toBe(true);
+    });
+
+    it("should return false for a point outside the rectangle", () => {
+      const rectangle = new Rectangle(validPoints);
+      const outsidePoint = new Point(3, 3);
+      expect(rectangle.isPointInside(outsidePoint)).toBe(false);
+    });
+
+    it("should return false for a point on the border of the rectangle", () => {
+      const rectangle = new Rectangle(validPoints);
+      const borderPoint = new Point(1, 2);
+      expect(rectangle.isPointInside(borderPoint)).toBe(false);
+    });
+  });
+
+  describe("calculateIntersections method", () => {
+    const pointsRectangle1 = [
+      new Point(0, 0),
+      new Point(3, 0),
+      new Point(3, 2),
+      new Point(0, 2),
+    ];
+
+    const pointsRectangle2 = [
+      new Point(2, 1),
+      new Point(4, 1),
+      new Point(4, 4),
+      new Point(2, 4),
+    ];
+
+    const pointsRectangle3 = [
+      new Point(-1, 1),
+      new Point(-1, 3),
+      new Point(-3, 3),
+      new Point(-3, 1),
+    ];
+
+    const pointsRectangle4 = [
+      new Point(0, 2),
+      new Point(2, 2),
+      new Point(2, 4),
+      new Point(0, 4),
+    ];
+    it("should calculate intersection points correctly", () => {
+      // Create rectangles and segments for testing
+      const rectangleA = new Rectangle(pointsRectangle1);
+      const rectangleB = new Rectangle(pointsRectangle2);
+
+      const intersectionPoints = Rectangle.calculateIntersections(
+        rectangleA,
+        rectangleB
+      );
+
+      // In this specific case, the rectangles intersect along a segment, so we expect two intersection points
+      expect(intersectionPoints).toHaveLength(2);
+      expect(intersectionPoints).toContainEqual(new Point(3, 1));
+      expect(intersectionPoints).toContainEqual(new Point(2, 2));
+    });
+
+    it("should handle rectangles with no intersection", () => {
+      // Create rectangles and segments for testing
+      const rectangleA = new Rectangle(pointsRectangle1);
+      const rectangleB = new Rectangle(pointsRectangle3);
+
+      const intersectionPoints = Rectangle.calculateIntersections(
+        rectangleA,
+        rectangleB
+      );
+
+      // In this case, the rectangles do not intersect, so we expect an empty array
+      expect(intersectionPoints).toHaveLength(0);
+    });
+
+    it("should handle adjacent rectangles as intersection", () => {
+      // Create rectangles and segments for testing
+      const rectangleA = new Rectangle(pointsRectangle1);
+      const rectangleB = new Rectangle(pointsRectangle4);
+
+      const intersectionPoints = Rectangle.calculateIntersections(
+        rectangleA,
+        rectangleB
+      );
+
+      // In this case 2 intersections are funded
+      expect(intersectionPoints).toHaveLength(2);
     });
   });
 });
