@@ -1,4 +1,5 @@
 import { InvalidRectangleException } from "../exceptions/invalid-rectangle.exception";
+import mapWithNext from "../util/map-with-next";
 import Point from "./Point";
 import Segment from "./Segment";
 import Vector from "./Vector";
@@ -12,32 +13,18 @@ export default class Rectangle {
         "Rectangle needs 4 different points."
       );
     }
-    const [pA, pB, pC, pD] = points;
-
-    this.segments = [
-      new Segment(pA, pB),
-      new Segment(pB, pC),
-      new Segment(pC, pD),
-      new Segment(pD, pA),
-    ];
+    this.points = points;
+    this.segments = mapWithNext(this.points, (p1, p2) => new Segment(p1, p2));
 
     if (!this.isRectangle()) {
       throw new InvalidRectangleException(
         "The points provided do not form a rectangle (Maybe they are not sorted.)"
       );
     }
-
-    this.points = points;
   }
 
-  isRectangle(): boolean {
-    const [vAB, vBC, vCD, vDA] = this.getVectors();
-    const dotProducts = [
-      Vector.dotProduct(vAB, vBC),
-      Vector.dotProduct(vBC, vCD),
-      Vector.dotProduct(vCD, vDA),
-    ];
-
+  private isRectangle(): boolean {
+    const dotProducts = mapWithNext(this.getVectors(), Vector.dotProduct);
     // All values for dps has to be 0 in order to validate a rectangle
     return dotProducts.every((dp) => dp === 0);
   }
@@ -79,7 +66,7 @@ export default class Rectangle {
     return [...intersectionMap.values()];
   }
 
-  calculateIntersection(rectangle: Rectangle): Point[] {
+  calculateIntersections(rectangle: Rectangle): Point[] {
     return Rectangle.calculateIntersections(this, rectangle);
   }
 

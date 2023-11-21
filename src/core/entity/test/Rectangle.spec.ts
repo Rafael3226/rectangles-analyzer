@@ -1,4 +1,4 @@
-import { expect, test, describe, jest } from "@jest/globals";
+import { expect, test, describe } from "@jest/globals";
 
 import Rectangle from "../Rectangle";
 import Point from "../Point";
@@ -66,27 +66,6 @@ describe("Rectangle class", () => {
     test("creates a rectangle with valid points", () => {
       const rectangle = new Rectangle(pointsRectangle1);
       expect(rectangle).toBeInstanceOf(Rectangle);
-    });
-  });
-
-  describe("isRectangle method", () => {
-    test("returns false for non-rectangular vectors", () => {
-      const rectangle = new Rectangle(pointsRectangle1);
-      // Modifying the vectors to be non-rectangular
-      jest
-        .spyOn(rectangle, "getVectors")
-        .mockReturnValue([
-          new Vector(1, 1),
-          new Vector(1, 1),
-          new Vector(1, 1),
-          new Vector(1, 1),
-        ]);
-
-      expect(rectangle.isRectangle()).toBe(false);
-    });
-
-    test("does not throw exception for rectangular vectors", () => {
-      expect(rectangle1.isRectangle()).toBe(true);
     });
   });
 
