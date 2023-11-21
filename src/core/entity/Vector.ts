@@ -8,8 +8,12 @@ export default class Vector {
     return new Vector(point2.x - point1.x, point2.y - point1.y);
   }
 
-  static createFromSegment(segment: Segment) {
+  static createFromSegment(segment: Segment): Vector {
     return Vector.createFromPoints(segment.P, segment.Q);
+  }
+
+  static parseSegmentList(segments: Segment[]): Vector[] {
+    return segments.map((s) => Vector.createFromSegment(s));
   }
 
   static dotProduct(vector1: Vector, vector2: Vector): number {

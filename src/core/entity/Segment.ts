@@ -1,3 +1,4 @@
+import mapWithNext from "../util/map-with-next";
 import Point from "./Point";
 
 export default class Segment {
@@ -39,5 +40,9 @@ export default class Segment {
     }
 
     return null; // Return null if intersection point is outside parameter ranges
+  }
+
+  static parsePointsList(points: Point[]): Segment[] {
+    return mapWithNext(points, (p1, p2) => new Segment(p1, p2));
   }
 }
