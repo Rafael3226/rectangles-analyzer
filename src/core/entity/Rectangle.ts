@@ -21,11 +21,16 @@ export default class Rectangle {
       new Segment(pD, pA),
     ];
 
-    this.isRectangle();
+    if (!this.isRectangle()) {
+      throw new InvalidRectangleException(
+        "The points provided do not form a rectangle (Maybe they are not sorted.)"
+      );
+    }
+
     this.points = points;
   }
 
-  isRectangle() {
+  isRectangle(): boolean {
     const [vAB, vBC, vCD, vDA] = this.getVectors();
     const dotProducts = [
       Vector.dotProduct(vAB, vBC),
@@ -34,11 +39,7 @@ export default class Rectangle {
     ];
 
     // All values for dps has to be 0 in order to validate a rectangle
-    if (!dotProducts.every((dp) => dp === 0)) {
-      throw new InvalidRectangleException(
-        "The points provided do not form a rectangle (Maybe they are not sorted.)"
-      );
-    }
+    return dotProducts.every((dp) => dp === 0);
   }
 
   getSegments() {
@@ -93,7 +94,7 @@ export default class Rectangle {
         vectors[i],
         vectors[(i + 1) % vectors.length]
       );
-      if (crossProduct < 0) {
+      if (crossProduct <= 0) {
         return false;
       }
     }
@@ -101,5 +102,14 @@ export default class Rectangle {
     return true;
   }
 
-  // isRectangleInside(rectangle: Rectangle) {}
+  isRectangleInside(rectangle: Rectangle): boolean {
+    const rectanglePoints = rectangle.getPoints();
+    // Check if all vertices of rectangle1 are inside rectangle2
+    for (const point of rectanglePoints) {
+      if (!this.isPointInside(point)) {
+        return false;
+      }
+    }
+    return true;
+  }
 }
