@@ -4,6 +4,8 @@ This project provides TypeScript classes for working with geometric shapes, spec
 
 The scope of this project is 2D.
 
+![Sample Image](./img/rectangles.png)
+
 ## Item List 📋
 
 - [Rectangle Analyzer 📐](#rectangle-analyzer-)
