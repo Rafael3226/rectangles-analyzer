@@ -8,10 +8,7 @@ describe("Segment", () => {
     const segment1 = new Segment(new Point(0, 0), new Point(2, 2));
     const segment2 = new Segment(new Point(0, 2), new Point(2, 0));
 
-    const intersectionPoint = Segment.calculateIntersectionPoint(
-      segment1,
-      segment2
-    );
+    const intersectionPoint = segment1.calculateIntersectionPoint(segment2);
 
     expect(intersectionPoint).toEqual(new Point(1, 1));
   });
@@ -20,10 +17,7 @@ describe("Segment", () => {
     const segment1 = new Segment(new Point(0, 0), new Point(2, 2));
     const segment2 = new Segment(new Point(1, 1), new Point(3, 3));
 
-    const intersectionPoint = Segment.calculateIntersectionPoint(
-      segment1,
-      segment2
-    );
+    const intersectionPoint = segment1.calculateIntersectionPoint(segment2);
 
     expect(intersectionPoint).toBeNull();
   });
@@ -32,10 +26,7 @@ describe("Segment", () => {
     const segment1 = new Segment(new Point(0, 0), new Point(2, 2));
     const segment2 = new Segment(new Point(3, 3), new Point(4, 4));
 
-    const intersectionPoint = Segment.calculateIntersectionPoint(
-      segment1,
-      segment2
-    );
+    const intersectionPoint = segment1.calculateIntersectionPoint(segment2);
 
     expect(intersectionPoint).toBeNull();
   });
@@ -44,10 +35,7 @@ describe("Segment", () => {
     const segment1 = new Segment(new Point(0, 0), new Point(2, 2));
     const segment2 = new Segment(new Point(0, 2), new Point(2, 0));
 
-    const intersectionPoint = Segment.calculateIntersectionPoint(
-      segment1,
-      segment2
-    );
+    const intersectionPoint = segment1.calculateIntersectionPoint(segment2);
 
     expect(intersectionPoint).toEqual(new Point(1, 1));
   });

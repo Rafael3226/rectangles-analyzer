@@ -18,7 +18,7 @@ describe("Point class", () => {
     const expectedDistance = 5;
 
     // Call the function
-    const result = Point.calculateDistance(point1, point2);
+    const result = point1.calculateDistance(point2);
 
     // Check if the result matches the expected distance
     expect(result).toBe(expectedDistance);
@@ -28,7 +28,7 @@ describe("Point class", () => {
     const point1: Point = new Point(0, -1);
     const point2: Point = new Point(0, -3);
 
-    const distance = Point.calculateDistance(point1, point2);
+    const distance = point1.calculateDistance(point2);
 
     expect(distance).toBeCloseTo(2);
   });

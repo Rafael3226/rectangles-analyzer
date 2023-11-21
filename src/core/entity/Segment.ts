@@ -5,18 +5,15 @@ import Vector from "./Vector";
 export default class Segment {
   constructor(public readonly P: Point, public readonly Q: Point) {}
 
-  calculateIntersectionPoint(segment: Segment): Point | null {
-    return Segment.calculateIntersectionPoint(this, segment);
+  static parsePointsList(points: Point[]): Segment[] {
+    return mapWithNext(points, (p1, p2) => new Segment(p1, p2));
   }
 
-  static calculateIntersectionPoint(
-    segment1: Segment,
-    segment2: Segment
-  ): Point | null {
-    const p1 = segment1.P;
-    const q1 = segment1.Q;
-    const p2 = segment2.P;
-    const q2 = segment2.Q;
+  calculateIntersectionPoint(segment: Segment): Point | null {
+    const p1 = this.P;
+    const q1 = this.Q;
+    const p2 = segment.P;
+    const q2 = segment.Q;
 
     const [x1, y1] = [p1.x, p1.y];
     const [x2, y2] = [q1.x, q1.y];
@@ -44,18 +41,14 @@ export default class Segment {
     return null; // Return null if intersection point is outside parameter ranges
   }
 
-  static parsePointsList(points: Point[]): Segment[] {
-    return mapWithNext(points, (p1, p2) => new Segment(p1, p2));
-  }
-
   equals(segment: Segment): boolean {
     const aP = this.P;
     const aQ = this.Q;
     const bP = segment.P;
     const bQ = segment.Q;
 
-    const isSameDirection = Point.equals(aP, bP) && Point.equals(aQ, bQ);
-    const isDifferentDirection = Point.equals(aP, bQ) && Point.equals(aQ, bP);
+    const isSameDirection = aP.equals(bP) && aQ.equals(bQ);
+    const isDifferentDirection = aP.equals(bQ) && aQ.equals(bP);
     // Do not consider direction
     return isSameDirection || isDifferentDirection;
   }
@@ -86,6 +79,6 @@ export default class Segment {
     const vA = Vector.createFromSegment(this);
     const vB = Vector.createFromSegment(segment);
 
-    return Vector.areVectorsParallel(vA, vB);
+    return vA.areVectorsParallel(vB);
   }
 }

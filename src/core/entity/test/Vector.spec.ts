@@ -26,7 +26,7 @@ describe("Vector", () => {
     const vector1 = new Vector(2, 3);
     const vector2 = new Vector(4, 5);
 
-    const dotProduct = Vector.dotProduct(vector1, vector2);
+    const dotProduct = vector1.dotProduct(vector2);
 
     expect(dotProduct).toBe(23);
   });

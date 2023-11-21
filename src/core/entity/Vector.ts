@@ -16,15 +16,15 @@ export default class Vector {
     return segments.map((s) => Vector.createFromSegment(s));
   }
 
-  static dotProduct(vector1: Vector, vector2: Vector): number {
-    return vector1.x * vector2.x + vector1.y * vector2.y;
+  dotProduct(vector: Vector): number {
+    return this.x * vector.x + this.y * vector.y;
   }
 
-  static crossProduct(vector1: Vector, vector2: Vector): number {
-    return vector1.x * vector2.y - vector1.y * vector2.x;
+  crossProduct(vector: Vector): number {
+    return this.x * vector.y - this.y * vector.x;
   }
 
-  static areVectorsParallel(vectorA: Vector, vectorB: Vector): boolean {
-    return Vector.crossProduct(vectorA, vectorB) === 0;
+  areVectorsParallel(vector: Vector): boolean {
+    return this.crossProduct(vector) === 0;
   }
 }

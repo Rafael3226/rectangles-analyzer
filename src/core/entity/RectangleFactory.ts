@@ -72,7 +72,7 @@ export default class RectangleFactory {
     const segments = Segment.parsePointsList(points);
     const dotProducts = mapWithNext(
       Vector.parseSegmentList(segments),
-      Vector.dotProduct
+      (v1, v2) => v1.dotProduct(v2)
     );
     // All values for dps has to be 0 in order to validate a rectangle
     return dotProducts.every((dp) => dp === 0);

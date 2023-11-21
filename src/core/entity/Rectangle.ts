@@ -1,3 +1,4 @@
+import mapWithNext from "../util/map-with-next";
 import Point from "./Point";
 import Segment from "./Segment";
 import Vector from "./Vector";
@@ -25,18 +26,7 @@ export default class Rectangle {
     const vectors: Vector[] = this.getPoints().map((p) =>
       Vector.createFromPoints(p, point)
     );
-
-    // Check if the point is on the same side of each side of the rectangle
-    for (let i = 0; i < vectors.length; i++) {
-      const crossProduct = Vector.crossProduct(
-        vectors[i],
-        vectors[(i + 1) % vectors.length]
-      );
-      if (crossProduct <= 0) {
-        return false;
-      }
-    }
-
-    return true;
+    const dotProducts = mapWithNext(vectors, (v1, v2) => v1.crossProduct(v2));
+    return dotProducts.every((dp) => dp > 0);
   }
 }
