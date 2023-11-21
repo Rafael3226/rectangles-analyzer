@@ -23,4 +23,8 @@ export default class Vector {
   static crossProduct(vector1: Vector, vector2: Vector): number {
     return vector1.x * vector2.y - vector1.y * vector2.x;
   }
+
+  static areVectorsParallel(vectorA: Vector, vectorB: Vector): boolean {
+    return Vector.crossProduct(vectorA, vectorB) === 0;
+  }
 }
