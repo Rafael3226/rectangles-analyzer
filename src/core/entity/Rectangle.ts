@@ -6,39 +6,99 @@ import Vector from "./Vector";
 
 export default class Rectangle {
   private readonly points: Point[];
-  private readonly segments: Segment[];
   constructor(points: Point[]) {
     if (points.length !== 4) {
       throw new InvalidRectangleException(
         "Rectangle needs 4 different points."
       );
     }
-    this.points = points;
-    this.segments = mapWithNext(this.points, (p1, p2) => new Segment(p1, p2));
-
-    if (!this.isRectangle()) {
-      throw new InvalidRectangleException(
-        "The points provided do not form a rectangle (Maybe they are not sorted.)"
-      );
-    }
+    this.points = Rectangle.sortPoints(points);
+    this.isRectangle();
   }
 
-  private isRectangle(): boolean {
-    const dotProducts = mapWithNext(this.getVectors(), Vector.dotProduct);
+  static calculateCentroid(points: Point[]): Point {
+    // Calculate the centroid of the points
+    return new Point(
+      (points[0].x + points[1].x + points[2].x + points[3].x) / 4,
+      (points[0].y + points[1].y + points[2].y + points[3].y) / 4
+    );
+  }
+
+  static sortPoints(points: Point[]): Point[] {
+    const centroid = Rectangle.calculateCentroid(points);
+    // Sort the points based on their angle relative to the centroid
+    return points.sort(
+      (a, b) =>
+        Math.atan2(a.y - centroid.y, a.x - centroid.x) -
+        Math.atan2(b.y - centroid.y, b.x - centroid.x)
+    );
+  }
+
+  static isRectangle(points: Point[]) {
+    if (!Rectangle.checkSides(points))
+      throw new InvalidRectangleException("The sides do not form a rectangle.");
+    if (!Rectangle.checkAngles(Rectangle.sortPoints(points)))
+      throw new InvalidRectangleException(
+        "The angles do not form a rectangle."
+      );
+  }
+
+  isRectangle() {
+    return Rectangle.isRectangle(this.points);
+  }
+
+  private static checkSides(points: Point[]): boolean {
+    const [p1, p2, p3, p4] = points;
+    // Calculate distances between points
+    const distances = [
+      p1.calculateDistance(p2),
+      p1.calculateDistance(p3),
+      p1.calculateDistance(p4),
+      p2.calculateDistance(p3),
+      p2.calculateDistance(p4),
+      p3.calculateDistance(p4),
+    ];
+
+    // Sort distances in ascending order
+    distances.sort((a, b) => a - b);
+
+    // Check if distances form a rectangle
+    return (
+      distances[0] === distances[1] &&
+      distances[2] === distances[3] &&
+      distances[4] === distances[5]
+    );
+  }
+
+  private static checkAngles(points: Point[]): boolean {
+    const dotProducts = mapWithNext(
+      Rectangle.getVectors(points),
+      Vector.dotProduct
+    );
     // All values for dps has to be 0 in order to validate a rectangle
     return dotProducts.every((dp) => dp === 0);
   }
 
-  getSegments() {
-    return this.segments;
+  static getSegments(points: Point[]) {
+    return mapWithNext(points, (p1, p2) => new Segment(p1, p2));
   }
 
-  getVectors() {
-    return this.segments.map((s) => Vector.createFromSegment(s));
+  static getVectors(points: Point[]) {
+    return Rectangle.getSegments(points).map((s) =>
+      Vector.createFromSegment(s)
+    );
   }
 
   getPoints() {
     return this.points;
+  }
+
+  getSegments() {
+    return Rectangle.getSegments(this.points);
+  }
+
+  getVectors() {
+    return Rectangle.getVectors(this.points);
   }
 
   static calculateIntersections(
