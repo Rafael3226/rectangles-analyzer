@@ -17,9 +17,9 @@ The scope of this project is 2D.
       - [Build](#build)
       - [Test](#test)
   - [Mathematical Explanation 🧮](#mathematical-explanation-)
-    - [CalculateIntersectionsUseCase](#calculateintersectionsusecase)
-    - [IsRectangleAdjacentUseCase](#isrectangleadjacentusecase)
-    - [IsRectangleContainedUseCase](#isrectanglecontainedusecase)
+    - [Calculate Intersections of two Rectangles](#calculate-intersections-of-two-rectangles)
+    - [Determine if two rectangles are Adjacent](#determine-if-two-rectangles-are-adjacent)
+    - [Determine if a rectangle is contained by other](#determine-if-a-rectangle-is-contained-by-other)
   - [Entities 🧩](#entities-)
     - [Point](#point)
     - [Segment](#segment)
@@ -27,10 +27,9 @@ The scope of this project is 2D.
     - [Rectangle](#rectangle)
     - [RectangleFactory](#rectanglefactory)
   - [Use Cases 🛠️](#use-cases-️)
-    - [CalculateIntersectionsUseCase](#calculateintersectionsusecase-1)
-    - [IsRectangleContainedUseCase](#isrectanglecontainedusecase-1)
-    - [IsRectangleAdjacentUseCase](#isrectangleadjacentusecase-1)
-  - [License 📄](#license-)
+    - [CalculateIntersectionsUseCase](#calculateintersectionsusecase)
+    - [IsRectangleContainedUseCase](#isrectanglecontainedusecase)
+    - [IsRectangleAdjacentUseCase](#isrectangleadjacentusecase)
 
 ## Usage 🚀
 
@@ -76,9 +75,7 @@ This script runs the Jest testing framework to execute tests defined in the `__t
 
 ## Mathematical Explanation 🧮
 
-Certainly! Here's a mathematical explanation of each use case:
-
-### CalculateIntersectionsUseCase
+### Calculate Intersections of two Rectangles
 
 The goal of this use case is to find the intersection points between two rectangles, represented by sets of line segments.
 
@@ -88,7 +85,7 @@ For each line segment s_A in S_A and each line segment s_B in S_B, calculate the
 
 The result is the set of unique intersection points { P }.
 
-### IsRectangleAdjacentUseCase
+### Determine if two rectangles are Adjacent
 
 This use case determines the type of adjacency between two rectangles.
 
@@ -98,7 +95,7 @@ For each line segment s_A in S_A and each line segment s_B in S_B, determine the
 
 The result is the categorization of the adjacency relationship between R_A and R_B into one of the following types: Proper (T = PROPER), Sub-line (T = SUB_LINE), Partial (T = PARTIAL), or None (T = NONE).
 
-### IsRectangleContainedUseCase
+### Determine if a rectangle is contained by other
 
 This use case checks if one rectangle is fully contained within another.
 
@@ -216,7 +213,3 @@ interface IsRectangleAdjacentUseCase {
   static execute(rectangleA: Rectangle, rectangleB: Rectangle): SideSharingType;
 }
 ```
-
-## License 📄
-
-This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details.
